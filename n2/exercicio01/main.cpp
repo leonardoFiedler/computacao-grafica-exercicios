@@ -1,11 +1,3 @@
-/// \file exe00.cpp
-/// \brief Implementation file for "CG-N2_HelloWorld".
-/// \version $Revision: 1.0 $
-/// \author Dalton Reis.
-/// \date 03/05/11.
-
-/// Obs.: o uso de variaveis globais foram usadas por questoes didaticas mas nao sao recomendas para aplicacoes reais.
-
 #if defined(__APPLE__) || defined(MACOSX)
     #include <OpenGL/gl.h>
     #include <GLUT/glut.h>
@@ -35,15 +27,6 @@ void exibicaoPrincipal(void) {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
 	SRU();
-    
-    //radiano = grau * PI / 180
-    
-    //raio = 100
-    //72 pontos
-    //diametro = 2.r = 200
-    //perimetro = 2 * PI * r = 628,3
-    //Angulo - 90 graus = 1.57 radianos
-    
     glColor3f(0.0, 0.0, 0.0);
     glPointSize(3.0f);
     glBegin(GL_POINTS);
