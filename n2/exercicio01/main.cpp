@@ -55,7 +55,6 @@ void exibicaoPrincipal(void) {
         float x = 100.0f * cos(i *  twicePi / 72);
         float y = 100.0f * sin(i * twicePi / 72);
         
-        cout << "x "
         glVertex2f(x,y);
     }
     glEnd();
