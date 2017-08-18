@@ -1,0 +1,9 @@
+*.tlog
+*.suo
+*.exe
+*.ilk
+*.pdb
+*.pch
+*.obj
+*.log
+*.v12

@@ -31,7 +31,6 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 	printf("=====  Leonardo Fiedler       =====\n");
 	printf("===================================\n");
 
-
 	iOpcao = _getch();
 	
 	switch (iOpcao)
@@ -45,7 +44,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 		}
 		case '2':
 		{
-			//funcao = &exercicio2;
+			funcao = &exercicio2;
 			sNomeTela = "Exercicio 2";
 			fColor1 = 1.0f; fColor2 = 1.0f; fColor3 = 1.0f; fColor4 = 1.0f;
 			break;
@@ -91,8 +90,7 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 	gJanelaPrincipal = glutCreateWindow(sNomeTela);
 	inicializacao(fColor1, fColor2, fColor3, fColor4);
 	glutDisplayFunc(funcao);
+	glutKeyboardFunc(keyboardFuncExe2);
 	glutMainLoop();
 
-
-	return 0;
 }
