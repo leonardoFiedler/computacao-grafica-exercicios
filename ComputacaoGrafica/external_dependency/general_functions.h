@@ -8,6 +8,7 @@
 #include "glut.h"
 #include <math.h>
 
+
 void SRU()
 {
 	glDisable(GL_TEXTURE_2D);

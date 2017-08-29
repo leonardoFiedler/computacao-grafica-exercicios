@@ -1,3 +1,4 @@
+#include <afx.h>
 #include "..\external_dependency\general_functions.h"
 
 GLint gJanelaPrincipal = 0;
@@ -5,6 +6,7 @@ GLint janelaLargura    = 400;
 GLint janelaAltura     = 400;
 int qtdClicked = 0;
 GLenum type = GL_POINTS;
+
 
 void exercicio6()
 {
@@ -30,6 +32,47 @@ void exercicio6()
 	glutSwapBuffers();
 }
 
+void keyboardFunc(UCHAR key, int x, int y)
+{
+	switch (key)
+	{
+	case '1':
+
+		break;
+
+	case '2':
+
+		break;
+
+	case '3':
+
+		break;
+
+	case '4':
+
+		break;
+	default:
+		break;
+	}
+
+	exercicio6();
+}
+
+void mouseFunc(int iButton, int iState, int x, int y)
+{
+	if (iState == GLUT_DOWN && iButton == GLUT_LEFT_BUTTON) 
+	{
+		
+
+	}
+	glutPostRedisplay();
+}
+
+void mouseMovement(int x, int y)
+{
+
+}
+
 int main(int argc, TCHAR* argv[], TCHAR* envp[])
 {
 	glutInit(&argc, (char **)argv);
@@ -39,6 +82,9 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
     gJanelaPrincipal = glutCreateWindow("Exercicio 6");
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glutDisplayFunc(exercicio6);
-	//glutKeyboardFunc(keyboardFunc);
+    glutKeyboardFunc(keyboardFunc);
+	glutMouseFunc(mouseFunc);
+	glutMotionFunc(mouseMovement);
+	//glutPassiveMotionFunc(void(*func)(int x, int y));
     glutMainLoop();
 }
