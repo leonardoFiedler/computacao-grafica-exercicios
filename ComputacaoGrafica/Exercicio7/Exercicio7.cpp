@@ -129,7 +129,7 @@ void mouseFunc(int iButton, int iState, int x, int y)
 	if (iState == GLUT_DOWN && iButton == GLUT_LEFT_BUTTON) 
 	{
 		initialX = x - diffX;
-		initialY = diffX - y;
+		initialY = y - diffY;
 		printf("diffX: %i\n", diffX);
 		printf("diffY: %i\n", diffY);
 		printf("initialX: %i\n", initialX);
@@ -147,7 +147,8 @@ void mouseMovement(int x, int y)
 {
 	if (mover) {
 		diffX = x - initialX;
-		diffY = initialY - y;		
+		diffY = y - initialY;
+
 		glutPostRedisplay();
 	}
 }
