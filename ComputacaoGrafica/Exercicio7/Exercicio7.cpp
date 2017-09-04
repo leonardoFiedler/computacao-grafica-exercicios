@@ -1,5 +1,7 @@
 #include <afx.h>
 #include "..\external_dependency\general_functions.h"
+#include "..\external_dependency\vart\boundingbox.h"
+#include "..\external_dependency\vart\point4d.h"
 
 GLint gJanelaPrincipal = 0;
 GLint janelaLargura    = 400;
@@ -10,6 +12,8 @@ GLint posX = 0;
 GLint posY = 0;
 
 bool mover = false;
+VART::BoundingBox bBox(0, 0, 0, 0, 0, 0);
+
 
 void desenha_circulo(GLfloat posX, GLfloat posY, GLfloat raio, int iQtd)
 {
@@ -53,6 +57,7 @@ void desenha_quadrado(GLfloat posX, GLfloat posY)
 		double y = 200 * sin(theta);
 
 		glVertex2d(x + posX, y + posY);	
+		//pto1.SetXY(x + posX, y + posY);
 			
 		theta = pi * (-45) / 200;
 
@@ -60,6 +65,7 @@ void desenha_quadrado(GLfloat posX, GLfloat posY)
 		y = -200 * sin(theta);
 
 		glVertex2d(x + posX, y + posY);
+		//pto2.SetXY(x + posX, y + posY);
 
 		theta = pi * (45) / 200;
 
@@ -67,6 +73,7 @@ void desenha_quadrado(GLfloat posX, GLfloat posY)
 		y = -200 * sin(theta);
 
 		glVertex2d(x + posX, y + posY);	
+		//pto3.SetXY(x + posX, y + posY);
 
 		theta = pi * (-45) / 200;
 
@@ -74,6 +81,7 @@ void desenha_quadrado(GLfloat posX, GLfloat posY)
 		y = 200 * sin(theta);
 
 		glVertex2d(x + posX, y + posY);
+		//pto4.SetXY(x + posX, y + posY);
 		
 	glEnd();
 }
@@ -93,6 +101,9 @@ void exercicio7()
 	desenha_circulo(posX, posY, 50, 30);
 	desenha_ponto(posX, posY);
 	desenha_quadrado(0, 0);
+	//bBox.SetBoundingBox(pto1.GetX(), pto1.GetY(), pto1.GetZ(), pto2.GetX(), pto2.GetY(), pto2.GetZ());
+	//bBox.ConditionalUpdate(pto2);
+	bBox.ProcessCenter();
 
 	glutSwapBuffers();
 }
