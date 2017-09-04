@@ -4,6 +4,11 @@
 GLint gJanelaPrincipal = 0;
 GLint janelaLargura    = 400;
 GLint janelaAltura     = 400;
+GLint initialX = 0;
+GLint initialY = 0;
+GLint diffX = 0;
+GLint diffY = 0;
+bool mover = false;
 
 void desenha_circulo(GLfloat posX, GLfloat posY, GLfloat raio, int iQtd)
 {
@@ -84,8 +89,8 @@ void exercicio7()
     SRU();
 
 	desenha_circulo(0, 0, 200, 100);
-	desenha_circulo(0, 0, 50, 30);
-	desenha_ponto(0, 0);
+	desenha_circulo(diffX, diffY, 50, 30);
+	desenha_ponto(diffX, diffY);
 	desenha_quadrado(0, 0);
 
 	glutSwapBuffers();
@@ -116,22 +121,35 @@ void keyboardFunc(UCHAR key, int x, int y)
 		break;
 	}
 
-	exercicio7();
+	//exercicio7();
 }
 
 void mouseFunc(int iButton, int iState, int x, int y)
 {
-	/*if (iState == GLUT_DOWN && iButton == GLUT_LEFT_BUTTON) 
+	if (iState == GLUT_DOWN && iButton == GLUT_LEFT_BUTTON) 
 	{
-		
-
-	}*/
-	glutPostRedisplay();
+		initialX = x - diffX;
+		initialY = diffX - y;
+		printf("diffX: %i\n", diffX);
+		printf("diffY: %i\n", diffY);
+		printf("initialX: %i\n", initialX);
+		printf("initialY: %i\n", initialY);
+		mover = true;
+	}
+	else if (iState == GLUT_UP && iButton == GLUT_LEFT_BUTTON) {
+		mover = false;
+		initialX = diffX;
+		initialY = diffY;
+	}	
 }
 
 void mouseMovement(int x, int y)
 {
-
+	if (mover) {
+		diffX = x - initialX;
+		diffY = initialY - y;		
+		glutPostRedisplay();
+	}
 }
 
 int main(int argc, TCHAR* argv[], TCHAR* envp[])
