@@ -4,16 +4,15 @@
 GLint gJanelaPrincipal = 0;
 GLint janelaLargura    = 400;
 GLint janelaAltura     = 400;
-GLenum type = GL_POINTS;
 CArray<CPoint> ListaPontos;
-CPoint pontoSelecionado;
+CPoint* pontoSelecionado = nullptr;
 
 int xAnterior = 0;
 int yAnterior = 0;
-bool bMoveu = false;
 
-void calculaSpline(GLdouble t, GLdouble& x, GLdouble& y)
+void splinePosition(GLdouble t, GLdouble& x, GLdouble& y)
 {
+	//Calculo da Spline com base na teoria de Bezier
 	double diff = 1.0 - t;
 
 	x = pow(diff, 3) * ListaPontos[3].x + 3 * t * pow(diff, 2) * ListaPontos[2].x + 3 * pow(t, 2) * diff * ListaPontos[1].x + pow(t, 3) * ListaPontos[0].x;
@@ -39,14 +38,15 @@ void exercicio6()
 	for (INT_PTR iIndex = 0; iIndex < ListaPontos.GetSize(); iIndex++)
         glVertex2f(ListaPontos[iIndex].x, ListaPontos[iIndex].y);
 	glEnd();
+	//desenhar o poliedro
 
 	//Desenhar o ponto selecionado
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glPointSize(8.0f);
-	
 	glBegin(GL_POINTS);
-	glVertex2f(pontoSelecionado.x, pontoSelecionado.y);
+	glVertex2f(pontoSelecionado->x, pontoSelecionado->y);
 	glEnd();
+	//Desenhar o ponto selecionado
 
 	//desenhar a Spline
 	glColor3f(1.0f, 1.0f, 0.0f);
@@ -57,11 +57,11 @@ void exercicio6()
 		GLdouble xRet = 0;
 		GLdouble yRet = 0;
 
-		calculaSpline(t * 0.025, xRet, yRet);
+		splinePosition(t * 0.025, xRet, yRet); //multiplicar o valor de t por 1/40 para poder ter um intervalo de t entre 0...1
 		glVertex2f(xRet, yRet);
 	}
-	
 	glEnd();
+	//desenhar a Spline
 
 	glutSwapBuffers();
 }
@@ -70,23 +70,15 @@ void keyboardFunc(UCHAR key, int x, int y)
 {
 	switch (key)
 	{
-	case '1':
-		pontoSelecionado = ListaPontos[3];
-		break;
+		case '1': pontoSelecionado = &ListaPontos[3]; break;
 
-	case '2':
-		pontoSelecionado = ListaPontos[2];
-		break;
+		case '2': pontoSelecionado = &ListaPontos[2]; break;
 
-	case '3':
-		pontoSelecionado = ListaPontos[1];
-		break;
+		case '3': pontoSelecionado = &ListaPontos[1]; break;
 
-	case '4':
-		pontoSelecionado = ListaPontos[0];
-		break;
-	default:
-		break;
+		case '4': pontoSelecionado = &ListaPontos[0]; break;
+		
+		default: break; //nada a fazer
 	}
 
 	glutPostRedisplay();
@@ -94,43 +86,27 @@ void keyboardFunc(UCHAR key, int x, int y)
 
 void mouseFunc(int iButton, int iState, int x, int y)
 {
-	if (iState == GLUT_DOWN && iButton == GLUT_LEFT_BUTTON) 
-	{
-        if (x != xAnterior || y != yAnterior)
-            bMoveu = true;
-
-        for (INT_PTR iIndex = 0; iIndex < ListaPontos.GetCount(); iIndex++)
-        {
-            CPoint ponto = ListaPontos[iIndex];
-
-            CRect rectPonto;
-            rectPonto.SetRect(CPoint(ponto.x - 3, ponto.y - 3), CPoint(ponto.x + 3, ponto.y + 3));
-            
-            bool bEstaDentro = rectPonto.PtInRect(CPoint(x, y));
-            Sleep(0);
-        }
-	}
-    else if (iState == GLUT_UP && iButton == GLUT_LEFT_BUTTON)
-    {
-        bMoveu = false;
-    }
-
-    CString s;
-    s = bMoveu ? "Sim\n" : "Não\n";
-    TRACE(s);
+	//Caso der um clique simples...
+	xAnterior = x;
+	yAnterior = y;
 
 	glutPostRedisplay();
 }
 
 void mouseMovement(int x, int y)
 {
+	//Calculando a diferença atual da posição atual do mouse pra posição anterior
+	GLdouble mouseDiffX = x - xAnterior;
+	GLdouble mouseDiffY = y - yAnterior;
+
+	//Com base nisso, trocar os valores do ponto selecionado
+	pontoSelecionado->SetPoint(pontoSelecionado->x + mouseDiffX, pontoSelecionado->y - mouseDiffY);
+
+	//e atualizando os valores de X e Y anteriores
     xAnterior = x;
     yAnterior = y;
 
-    CString s;
-    s.Format("xAnterior: %d | yAnterior: %d\n", xAnterior, yAnterior);
-    TRACE(s);
-
+	glutPostRedisplay();
 }
 
 int main(int argc, TCHAR* argv[], TCHAR* envp[])
@@ -139,25 +115,20 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
 
     CPoint p1, p2, p3, p4;
 
-    p1.x =  100;
-    p1.y = -100;
+	//Definindo os pontos iniciais
+    p1.x =  100; p1.y = -100;
+    p2.x =  100; p2.y =  100;
+    p3.x = -100; p3.y =  100;
+    p4.x = -100; p4.y = -100;
 
-    p2.x =  100;
-    p2.y =  100;
-
-    p3.x = -100;
-    p3.y =  100;
-
-    p4.x = -100;
-    p4.y = -100;
-
+	//Por praticidade, guardar todos numa lista
     ListaPontos[0] = p1;
     ListaPontos[1] = p2;
     ListaPontos[2] = p3;
     ListaPontos[3] = p4;
 
 	//definindo como ponto inicial o p4
-	pontoSelecionado = p4;
+	pontoSelecionado = &ListaPontos[3];
 
 	glutInit(&argc, (char **)argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -169,6 +140,5 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
     glutKeyboardFunc(keyboardFunc);
 	glutMouseFunc(mouseFunc);
 	glutMotionFunc(mouseMovement);
-	//glutPassiveMotionFunc(void(*func)(int x, int y));
     glutMainLoop();
 }
