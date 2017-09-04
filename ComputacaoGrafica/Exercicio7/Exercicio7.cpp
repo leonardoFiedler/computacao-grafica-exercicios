@@ -6,8 +6,9 @@ GLint janelaLargura    = 400;
 GLint janelaAltura     = 400;
 GLint initialX = 0;
 GLint initialY = 0;
-GLint diffX = 0;
-GLint diffY = 0;
+GLint posX = 0;
+GLint posY = 0;
+
 bool mover = false;
 
 void desenha_circulo(GLfloat posX, GLfloat posY, GLfloat raio, int iQtd)
@@ -89,14 +90,12 @@ void exercicio7()
     SRU();
 
 	desenha_circulo(0, 0, 200, 100);
-	desenha_circulo(diffX, diffY, 50, 30);
-	desenha_ponto(diffX, diffY);
+	desenha_circulo(posX, posY, 50, 30);
+	desenha_ponto(posX, posY);
 	desenha_quadrado(0, 0);
 
 	glutSwapBuffers();
 }
-
-
 
 void keyboardFunc(UCHAR key, int x, int y)
 {
@@ -121,36 +120,42 @@ void keyboardFunc(UCHAR key, int x, int y)
 		break;
 	}
 
-	//exercicio7();
+	glutPostRedisplay();
 }
 
 void mouseFunc(int iButton, int iState, int x, int y)
 {
-	if (iState == GLUT_DOWN && iButton == GLUT_LEFT_BUTTON) 
+	initialX = x;
+	initialY = y;
+
+	if (iState == GLUT_UP && iButton == GLUT_LEFT_BUTTON) 
 	{
-		initialX = x - diffX;
-		initialY = y - diffY;
-		printf("diffX: %i\n", diffX);
-		printf("diffY: %i\n", diffY);
-		printf("initialX: %i\n", initialX);
-		printf("initialY: %i\n", initialY);
-		mover = true;
-	}
-	else if (iState == GLUT_UP && iButton == GLUT_LEFT_BUTTON) {
-		mover = false;
-		initialX = diffX;
-		initialY = diffY;
+		//para voltar ao centro depois de soltar o botao do mouse
+		posX = 0;
+		posY = 0;
+
+		initialX = 0;
+		initialY = 0;
 	}	
+
+	glutPostRedisplay();
 }
 
 void mouseMovement(int x, int y)
 {
-	if (mover) {
-		diffX = x - initialX;
-		diffY = y - initialY;
+	//Calcular a diferença
+	GLint diffX = x - initialX;
+	GLint diffY = y - initialY;
 
-		glutPostRedisplay();
-	}
+	//Jogar isso pro cara que desenha o circulo
+	posX += diffX;
+	posY -= diffY;
+
+	//atualizar os valores do anterior
+	initialX = x;
+	initialY = y;
+
+	glutPostRedisplay();
 }
 
 int main(int argc, TCHAR* argv[], TCHAR* envp[])
