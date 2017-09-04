@@ -1,21 +1,32 @@
 #include <afx.h>
 #include "..\external_dependency\general_functions.h"
 
+using namespace VART;
 
 GLint gJanelaPrincipal = 0;
 GLint janelaLargura    = 400;
 GLint janelaAltura     = 400;
-GLint initialX = 0;
-GLint initialY = 0;
-GLint posX = 0;
-GLint posY = 0;
+GLint initialX = 200;
+GLint initialY = 200;
+GLint posX = 200;
+GLint posY = 200;
+
+GLint posXReal = 200;
+GLint posYReal = 200;
+
 
 bool mover = false;
-VART::Point4D pto1(0, 0, 0);
-VART::Point4D pto2(0, 0, 0);
-VART::Point4D pto3(0, 0, 0);
-VART::Point4D pto4(0, 0, 0);
-VART::BoundingBox bBox(0, 0, 0, 0, 0, 0);
+bool estaDentrobBox = true;
+bool naoDesenha = false;
+
+Point4D pto1(0, 0, 0);
+Point4D pto2(0, 0, 0);
+Point4D pto3(0, 0, 0);
+Point4D pto4(0, 0, 0);
+Point4D ptoCentral(0 ,0 ,0);
+BoundingBox bBox(0, 0, 0, 0, 0, 0);
+
+int iTeste = 0;
 
 
 void desenha_circulo(GLfloat posX, GLfloat posY, GLfloat raio, int iQtd)
@@ -40,7 +51,7 @@ void desenha_circulo(GLfloat posX, GLfloat posY, GLfloat raio, int iQtd)
 void desenha_ponto(GLfloat posX, GLfloat posY)
 {
 	glColor3f(0.0, 0.0, 0.0);
-
+   
 	glPointSize(2.0f);
 	glBegin(GL_POINTS);
 		glVertex2d(posX, posY);
@@ -49,7 +60,18 @@ void desenha_ponto(GLfloat posX, GLfloat posY)
 
 void desenha_quadrado(GLfloat posX, GLfloat posY)
 {
-	glColor3f(0.8, 0.5, 0.7);
+    if (naoDesenha)
+    {
+        glColor3f(0.0, 1.0, 1.0);
+    }
+    else
+    {
+        if (estaDentrobBox)
+            glColor3f(0.8, 0.5, 0.7);
+        else
+            glColor3f(1.0, 0.5, 0.15);
+    }
+    
 
 	glLineWidth(2.0f);
 	double pi = 3.14159265358979;
@@ -91,7 +113,7 @@ void desenha_quadrado(GLfloat posX, GLfloat posY)
 
 void exercicio7()
 {
-	glMatrixMode(GL_PROJECTION);
+    glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(-400.0, 400.0, -400.0, 400.0);
     glMatrixMode(GL_MODELVIEW);
@@ -100,43 +122,19 @@ void exercicio7()
 
     SRU();
 
-	desenha_circulo(0, 0, 200, 100);
-	desenha_circulo(posX, posY, 50, 30);		
-	desenha_ponto(posX, posY);	
-	bBox.SetBoundingBox(pto4.GetX(), pto4.GetY(), pto4.GetZ(), pto1.GetX(), pto1.GetY(), pto1.GetZ());
-	bBox.ConditionalUpdate(pto1);
-	bBox.ProcessCenter();
+    desenha_circulo(200, 200, 200, 100);
+
+    desenha_circulo(posXReal, posYReal, 50, 30);
+    desenha_ponto(posXReal, posYReal);
+
+    ptoCentral.SetXY(posXReal, posYReal);
+	bBox.SetBoundingBox(pto3.GetX(), pto3.GetY(), pto3.GetZ(), pto1.GetX(), pto1.GetY(), pto1.GetZ());
 	bBox.DrawInstanceOGL();
 	glColor3f(0.0, 1.0, 1.0);
-	desenha_quadrado(0, 0);
+    glPointSize(3.0);
+	desenha_quadrado(200, 200);
 
 	glutSwapBuffers();
-}
-
-void keyboardFunc(UCHAR key, int x, int y)
-{
-	switch (key)
-	{
-	case '1':
-
-		break;
-
-	case '2':
-
-		break;
-
-	case '3':
-
-		break;
-
-	case '4':
-
-		break;
-	default:
-		break;
-	}
-
-	glutPostRedisplay();
 }
 
 void mouseFunc(int iButton, int iState, int x, int y)
@@ -147,11 +145,14 @@ void mouseFunc(int iButton, int iState, int x, int y)
 	if (iState == GLUT_UP && iButton == GLUT_LEFT_BUTTON) 
 	{
 		//para voltar ao centro depois de soltar o botao do mouse
-		posX = 0;
-		posY = 0;
+		posXReal = posX = 200;
+		posYReal = posY = 200;
 
-		initialX = 0;
-		initialY = 0;
+		initialX = 200;
+		initialY = 200;
+
+        estaDentrobBox = true;
+        naoDesenha = false;
 	}	
 
 	glutPostRedisplay();
@@ -167,9 +168,38 @@ void mouseMovement(int x, int y)
 	posX += diffX;
 	posY -= diffY;
 
+    if (naoDesenha == false)
+    {
+        posXReal = posX;
+        posYReal = posY;
+    }
+
 	//atualizar os valores do anterior
 	initialX = x;
 	initialY = y;
+
+    ptoCentral.SetXY(posX, posY);
+
+    if (bBox.testPoint(ptoCentral))
+    {
+        estaDentrobBox = true;
+    }
+    else
+    {
+        estaDentrobBox = false;
+        double result = pow((posX - 200), 2) + pow((posY - 200), 2);
+        if (result > pow(200, 2)) {
+            naoDesenha = true;
+        }
+        else {
+            naoDesenha = false;
+        }
+    }
+
+    if (iTeste >= 100)
+    {
+        iTeste = 0;
+    }
 
 	glutPostRedisplay();
 }
@@ -182,10 +212,10 @@ int main(int argc, TCHAR* argv[], TCHAR* envp[])
     glutInitWindowSize(janelaLargura, janelaAltura);
     gJanelaPrincipal = glutCreateWindow("Exercicio 7");
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    bBox.ConditionalUpdate(ptoCentral);
+    bBox.ProcessCenter();
     glutDisplayFunc(exercicio7);
-    glutKeyboardFunc(keyboardFunc);
 	glutMouseFunc(mouseFunc);
 	glutMotionFunc(mouseMovement);
-	//glutPassiveMotionFunc(void(*func)(int x, int y));
     glutMainLoop();
 }
