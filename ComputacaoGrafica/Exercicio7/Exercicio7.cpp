@@ -11,6 +11,10 @@ GLint posX = 0;
 GLint posY = 0;
 
 bool mover = false;
+VART::Point4D pto1(0, 0, 0);
+VART::Point4D pto2(0, 0, 0);
+VART::Point4D pto3(0, 0, 0);
+VART::Point4D pto4(0, 0, 0);
 VART::BoundingBox bBox(0, 0, 0, 0, 0, 0);
 
 
@@ -56,7 +60,7 @@ void desenha_quadrado(GLfloat posX, GLfloat posY)
 		double y = 200 * sin(theta);
 
 		glVertex2d(x + posX, y + posY);	
-		//pto1.SetXY(x + posX, y + posY);
+		pto1.SetXY(x + posX, y + posY);
 			
 		theta = pi * (-45) / 200;
 
@@ -64,7 +68,7 @@ void desenha_quadrado(GLfloat posX, GLfloat posY)
 		y = -200 * sin(theta);
 
 		glVertex2d(x + posX, y + posY);
-		//pto2.SetXY(x + posX, y + posY);
+		pto2.SetXY(x + posX, y + posY);
 
 		theta = pi * (45) / 200;
 
@@ -72,7 +76,7 @@ void desenha_quadrado(GLfloat posX, GLfloat posY)
 		y = -200 * sin(theta);
 
 		glVertex2d(x + posX, y + posY);	
-		//pto3.SetXY(x + posX, y + posY);
+		pto3.SetXY(x + posX, y + posY);
 
 		theta = pi * (-45) / 200;
 
@@ -80,7 +84,7 @@ void desenha_quadrado(GLfloat posX, GLfloat posY)
 		y = 200 * sin(theta);
 
 		glVertex2d(x + posX, y + posY);
-		//pto4.SetXY(x + posX, y + posY);
+		pto4.SetXY(x + posX, y + posY);
 		
 	glEnd();
 }
@@ -97,12 +101,14 @@ void exercicio7()
     SRU();
 
 	desenha_circulo(0, 0, 200, 100);
-	desenha_circulo(posX, posY, 50, 30);
-	desenha_ponto(posX, posY);
-	desenha_quadrado(0, 0);
-	//bBox.SetBoundingBox(pto1.GetX(), pto1.GetY(), pto1.GetZ(), pto2.GetX(), pto2.GetY(), pto2.GetZ());
-	//bBox.ConditionalUpdate(pto2);
+	desenha_circulo(posX, posY, 50, 30);		
+	desenha_ponto(posX, posY);	
+	bBox.SetBoundingBox(pto4.GetX(), pto4.GetY(), pto4.GetZ(), pto1.GetX(), pto1.GetY(), pto1.GetZ());
+	bBox.ConditionalUpdate(pto1);
 	bBox.ProcessCenter();
+	bBox.DrawInstanceOGL();
+	glColor3f(0.0, 1.0, 1.0);
+	desenha_quadrado(0, 0);
 
 	glutSwapBuffers();
 }
