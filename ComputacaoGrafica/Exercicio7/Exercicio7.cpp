@@ -1,7 +1,6 @@
 #include <afx.h>
 #include "..\external_dependency\general_functions.h"
-#include "..\external_dependency\vart\boundingbox.h"
-#include "..\external_dependency\vart\point4d.h"
+
 
 GLint gJanelaPrincipal = 0;
 GLint janelaLargura    = 400;

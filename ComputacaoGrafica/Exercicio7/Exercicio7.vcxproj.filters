@@ -13,10 +13,63 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="vart">
+      <UniqueIdentifier>{1c1ac113-1bfe-4119-81e0-2e12008b0d52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vart\Source">
+      <UniqueIdentifier>{cdac82a4-fa03-4277-8cf4-8576b57cbe9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vart\Header">
+      <UniqueIdentifier>{9693eb1f-3c6e-4ef1-837f-6625c6480c2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Exercicio7.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\external_dependency\vart\source\boundingbox.cpp">
+      <Filter>vart\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external_dependency\vart\source\camera.cpp">
+      <Filter>vart\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external_dependency\vart\source\color.cpp">
+      <Filter>vart\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external_dependency\vart\source\mathdef.cpp">
+      <Filter>vart\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external_dependency\vart\source\point4d.cpp">
+      <Filter>vart\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external_dependency\vart\source\time.cpp">
+      <Filter>vart\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external_dependency\vart\source\transform.cpp">
+      <Filter>vart\Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\external_dependency\vart\boundingbox.h">
+      <Filter>vart\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external_dependency\vart\camera.h">
+      <Filter>vart\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external_dependency\vart\color.h">
+      <Filter>vart\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external_dependency\vart\mathdef.h">
+      <Filter>vart\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external_dependency\vart\point4d.h">
+      <Filter>vart\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external_dependency\vart\time.h">
+      <Filter>vart\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\external_dependency\vart\transform.h">
+      <Filter>vart\Header</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

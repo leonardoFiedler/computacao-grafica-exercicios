@@ -8,6 +8,14 @@
 #include "glut.h"
 #include <math.h>
 
+#include "vart\boundingbox.h"
+#include "vart\camera.h"
+#include "vart\color.h"
+#include "vart\mathdef.h"
+#include "vart\point4d.h"
+#include "vart\time.h"
+#include "vart\transform.h"
+
 
 void SRU()
 {

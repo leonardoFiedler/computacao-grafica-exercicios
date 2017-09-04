@@ -11,7 +11,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\external_dependency\vart\source\boundingbox.cpp" />
+    <ClCompile Include="..\external_dependency\vart\source\camera.cpp" />
+    <ClCompile Include="..\external_dependency\vart\source\color.cpp" />
+    <ClCompile Include="..\external_dependency\vart\source\mathdef.cpp" />
+    <ClCompile Include="..\external_dependency\vart\source\point4d.cpp" />
+    <ClCompile Include="..\external_dependency\vart\source\time.cpp" />
+    <ClCompile Include="..\external_dependency\vart\source\transform.cpp" />
     <ClCompile Include="Exercicio7.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\external_dependency\vart\boundingbox.h" />
+    <ClInclude Include="..\external_dependency\vart\camera.h" />
+    <ClInclude Include="..\external_dependency\vart\color.h" />
+    <ClInclude Include="..\external_dependency\vart\mathdef.h" />
+    <ClInclude Include="..\external_dependency\vart\point4d.h" />
+    <ClInclude Include="..\external_dependency\vart\time.h" />
+    <ClInclude Include="..\external_dependency\vart\transform.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{03E6130B-20AA-46F2-9793-AA18F1ED7920}</ProjectGuid>
@@ -24,14 +40,14 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
